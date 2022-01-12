@@ -1,14 +1,11 @@
-const task = (title, description, dueDate, priority="medium", project="default") => {
+const task = (title, description, dueDate, project="default") => {
     return {
         title, 
         description, 
         dueDate,
-        priority,
         project
     };
 };
-
-
 
 export {task};
 
