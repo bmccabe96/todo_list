@@ -8,10 +8,13 @@ const testTask2 = task("change", "gotta change my clothes", "1/11/22", "high");
 defaultProject.addTask(testTask1);
 defaultProject.addTask(testTask2);
 
-//loadProjectContent(defaultProject);
+loadProjectContent(defaultProject);
+
+
 
 console.log(defaultProject.getTasks());
 
 defaultProject.removeTask(testTask2);
 
 console.log(defaultProject.getTasks());
+
