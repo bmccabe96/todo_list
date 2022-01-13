@@ -1,40 +1,19 @@
 import {project} from "./project";
-
-// const addToDefault = (task) => {
-//     const defaultList = document.querySelector(".default-list");
-
-//     const titleElement = document.createElement("span");
-//     titleElement.textContent = task.title;
-//     const descriptionElement = document.createElement("span");
-//     descriptionElement.textContent = task.description;
-//     const dueDateElement = document.createElement("span");
-//     dueDateElement.textContent = task.dueDate;
-//     const priorityElemnent = document.createElement("span");
-//     priorityElemnent.textContent = task.priority;
-
-//     const newRow = document.createElement("li");
-//     newRow.appendChild(titleElement);
-//     newRow.appendChild(descriptionElement);
-//     newRow.appendChild(dueDateElement);
-//     newRow.appendChild(priorityElemnent);
-
-//     defaultList.appendChild(newRow);
-
-// };
+import {leftNav} from "./leftNav";
 
 
 
 
-
-
-
-
-
-
-
-
-const loadProjects = () => {
-
+const loadProjects = (obj) => {
+    const projectList = document.querySelector(".project-list");
+    removeAllChildNodes(projectList);
+    const projects = obj.getProjects();
+    projects.forEach(project => {
+        const projElement = document.createElement("div");
+        projElement.textContent = obj.getProject(project).projectName;
+        projElement.className = "project";
+        projectList.appendChild(projElement);
+    });
 };
 
 const loadProjectContent = (project) => {
