@@ -11,6 +11,12 @@ html {
     flex-direction: column;
 }
 
+.add-project {
+    height: 1.5rem;
+    width: 1.5rem;
+    border: 1px solid black;
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -54,3 +60,4 @@ html {
 .checkbox.checked {
     border: 1px solid green;
 }
+
