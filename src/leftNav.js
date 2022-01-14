@@ -10,6 +10,14 @@ const leftNav = () => {
         }
     };
 
+    const getProjectByString = (projectString) => {
+        for (let i=0; i<projects.length; i++) {
+            if (projects[i].projectName === projectString) {
+                return projects[i];
+            }
+        }
+    };
+
     const getProjects = () => {
         return projects;
     };
@@ -19,7 +27,7 @@ const leftNav = () => {
     };
 
     return {
-        getProject, getProjects, addProject
+        getProject, getProjects, addProject, getProjectByString
     };
 };
 

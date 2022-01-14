@@ -1,10 +1,10 @@
 import {task} from "./task";
-import {loadProjects, loadProjectContent} from "./UI";
+import {loadProjects, loadProjectContent, populateProjectsDropdown} from "./UI";
 import {project} from "./project";
 import { leftNav } from "./leftNav";
 import { getTaskFromInput} from "./addTask";
 
-// let projects = [];
+//let projects = [];
 const leftNavObj = leftNav();
 const defaultProject = project("default");
 leftNavObj.addProject(defaultProject);
@@ -16,12 +16,10 @@ defaultProject.addTask(testTask2);
 loadProjectContent(defaultProject);
 loadProjects(leftNavObj);
 
-
-let projects = document.querySelectorAll(".project");
-console.log(projects);
+//projects.push(defaultProject);
 
 const refreshProjectListener = () => {
-    projects = document.querySelectorAll(".project");
+    const projects = document.querySelectorAll(".project");
     projects.forEach((project, index) => {
         project.addEventListener("click", () => {
             loadProjectContent(leftNavObj.getProjects()[index]);
@@ -34,8 +32,6 @@ const addProject = document.querySelector(".add-project");
 addProject.addEventListener("click", () => {
     const newProjName = prompt("New project name: ");
     const newProject = project(newProjName);
-    const newTask = task("brush", "gotta brush my teeth", "1/11/22");
-    newProject.addTask(newTask);
     leftNavObj.addProject(newProject);
     loadProjects(leftNavObj);
     refreshProjectListener();
@@ -48,18 +44,18 @@ const addTaskForm = document.querySelector("#add-task-form"); //Get form
 //Open modal when use clicks add
 addTaskButton.addEventListener("click", () => {
     modal.style.display = "block";
+    populateProjectsDropdown(leftNavObj.getProjects());
 });
 //Prevent form from refreshing window on submit and also store new task 
 function handleForm(event) { event.preventDefault(); } 
 addTaskForm.addEventListener('submit', handleForm);
 addTaskForm.addEventListener("submit", () => {
     let newTask = getTaskFromInput();
-    console.log(newTask);
     modal.style.display = "none";
     addTaskForm.reset();
-    let project = defaultProject;
-    defaultProject.addTask(newTask);
+    leftNavObj.getProjectByString(newTask.project).addTask(newTask);
     loadProjectContent(defaultProject);
+    document.querySelector(`.${newTask.project}`).click();
 });
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {

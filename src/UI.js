@@ -13,7 +13,7 @@ const loadProjects = (obj) => {
     projects.forEach(project => {
         const projElement = document.createElement("div");
         projElement.textContent = obj.getProject(project).projectName;
-        projElement.className = "project";
+        projElement.className = `project ${project.projectName}`;
         projectList.appendChild(projElement);
     });
 };
@@ -60,12 +60,24 @@ const loadProjectContent = (project) => {
     
 };
 
+const populateProjectsDropdown = (projects) => {
+    removeAllChildNodes(document.querySelector("#project-select"));
+    const projectsEl = document.querySelector("#project-select");
+    for(let i = 0; i < projects.length; i++) {
+        const opt = projects[i].projectName;
+        const el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        projectsEl.appendChild(el);
+    }
+};
+
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 }
 
-export {loadProjects, loadProjectContent};
+export {loadProjects, loadProjectContent, populateProjectsDropdown};
 
 
