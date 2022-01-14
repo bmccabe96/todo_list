@@ -9,18 +9,57 @@
     <title>To Dos</title>
 </head>
 <body>
-
+    <div class="header">
+        <div class="header-title">
+            To-Do
+        </div>
+    </div>
     <div class="main-content">
         <div class="left-nav-bar">
             <div class="project-list">
 
             </div>
             <div class="add-project">
-                
+
             </div>
         </div>
-        <div class="project-content">
+        <div class="content-area">
+            <div class="add-task">
+                +
+            </div>
+            <div class="project-content">
+            
+            </div>
+        </div>
+        
+    </div>
 
+     <!-- The Modal -->
+     <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form method="post" id="add-task-form">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title"><br>
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description"><br>
+                <label for="date">Due Date:</label>
+                <input type="date" id="date" name="date"><br>
+                <label for="project-select">Choose a Project:</label>
+                <select name="projects" id="project-select">
+                    <option value="">--Please choose an option--</option>
+                    <option value="dog">Dog</option>
+                    <option value="cat">Cat</option>
+                    <option value="hamster">Hamster</option>
+                    <option value="parrot">Parrot</option>
+                    <option value="spider">Spider</option>
+                    <option value="goldfish">Goldfish</option>
+                </select>
+                <div class="btn-holder">
+                    <input type="submit" id="submit-task" class="btn" value="Add Task"></input>
+                </div>
+            </form>
         </div>
     </div>
 
