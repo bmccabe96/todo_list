@@ -1,4 +1,3 @@
-import {loadProjects} from "./UI";
 
 const leftNav = () => {
     let projects = [];
@@ -18,7 +17,7 @@ const leftNav = () => {
     const addProject = (project) => {
         projects.push(project);
     };
-    
+
     return {
         getProject, getProjects, addProject
     };

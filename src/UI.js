@@ -4,6 +4,8 @@ import {leftNav} from "./leftNav";
 
 
 
+
+
 const loadProjects = (obj) => {
     const projectList = document.querySelector(".project-list");
     removeAllChildNodes(projectList);
