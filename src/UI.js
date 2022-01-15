@@ -9,7 +9,8 @@ const loadProjects = (obj) => {
     projects.forEach(project => {
         const projElement = document.createElement("div");
         projElement.textContent = obj.getProject(project).projectName;
-        projElement.className = `project ${project.projectName}`;
+        const classNameDashed = project.projectName.replace(/\s/g , "-");
+        projElement.className = `project ${classNameDashed}`;
         projectList.appendChild(projElement);
     });
 };
@@ -53,8 +54,31 @@ const loadProjectContent = (project) => {
 
         content.appendChild(outerTaskContainer);
     });
-    
+    const removeButtons = document.querySelectorAll(".remove-task");
+    const checkBoxes = document.querySelectorAll(".checkbox");
+
+    removeButtons.forEach((remove, index) => {
+        remove.addEventListener("click", () => {
+            project.removeTask(project.getTasks()[index])
+            loadProjectContent(project);
+            console.log(project.getTasks());
+        });
+    });
+
+    checkBoxes.forEach((checkBox) => {
+        checkBox.addEventListener("click", () => {
+            if(checkBox.textContent !== ":)") {
+                checkBox.textContent = ":)";
+                checkBox.classList.add("checked")
+            }else {
+                checkBox.textContent = "";
+                checkBox.classList.remove("checked")
+            }
+        });
+    });
 };
+
+
 
 const populateProjectsDropdown = (projects) => {
     removeAllChildNodes(document.querySelector("#project-select"));
@@ -67,6 +91,7 @@ const populateProjectsDropdown = (projects) => {
         projectsEl.appendChild(el);
     }
 };
+
 
 const refreshProjectListener = (obj) => {
     const projects = document.querySelectorAll(".project");

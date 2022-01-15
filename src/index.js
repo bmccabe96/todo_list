@@ -18,7 +18,7 @@ defaultProject.addTask(testTask2);
 
 loadProjectContent(defaultProject);
 loadProjects(leftNavObj);
-document.querySelector(".Default").classList.add("selected");
+document.querySelector(".Default-Project").classList.add("selected");
 
 
 /*
@@ -32,9 +32,18 @@ addProject.addEventListener("click", () => {
     leftNavObj.addProject(newProject);
     loadProjects(leftNavObj);
     refreshProjectListener(leftNavObj);
-    document.querySelector(`.${newProjName}`).classList.add("selected");
+    document.querySelector(`.${newProjName.replace(/\s/g , "-")}`).classList.add("selected");
     loadProjectContent(newProject);
 });
+
+
+
+
+
+/*
+MODAL STUFF BELOW
+*/
+
 
 const modal = document.getElementById("myModal"); // Get the modal
 const addTaskButton = document.querySelector(".add-task"); // Get the button that opens the modal
@@ -53,8 +62,9 @@ addTaskForm.addEventListener("submit", () => {
     modal.style.display = "none";
     addTaskForm.reset();
     leftNavObj.getProjectByString(newTask.project).addTask(newTask);
-    loadProjectContent(defaultProject);
-    document.querySelector(`.${newTask.project}`).click();
+    loadProjectContent(leftNavObj.getProjectByString(newTask.project));
+    console.log(`.${newTask.project}`);
+    document.querySelector(`.${newTask.project.replace(/\s/g , "-")}`).click();
 });
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
