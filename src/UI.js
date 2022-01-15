@@ -2,10 +2,6 @@ import {project} from "./project";
 import {leftNav} from "./leftNav";
 
 
-
-
-
-
 const loadProjects = (obj) => {
     const projectList = document.querySelector(".project-list");
     removeAllChildNodes(projectList);
@@ -34,7 +30,7 @@ const loadProjectContent = (project) => {
         innerTaskContainerLeft.className = "inner-task-container-left";
 
         const remove = document.createElement("button");
-        remove.className = "remove-task";
+        remove.className = "remove-task btn";
         remove.textContent = "Remove";
 
         const titleElement = document.createElement("div");
@@ -72,12 +68,27 @@ const populateProjectsDropdown = (projects) => {
     }
 };
 
+const refreshProjectListener = (obj) => {
+    const projects = document.querySelectorAll(".project");
+    projects.forEach((project, index) => {
+        project.addEventListener("click", () => {
+            loadProjectContent(obj.getProjects()[index]);
+            //get rid of selected from prior
+            for (let i = 0; i < projects.length; i++) {
+                projects[i].classList.remove("selected");
+            }
+            project.classList.add("selected");
+        });
+    });
+};
+
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 }
 
-export {loadProjects, loadProjectContent, populateProjectsDropdown};
+export {loadProjects, loadProjectContent, 
+    populateProjectsDropdown, refreshProjectListener};
 
 

@@ -1,12 +1,15 @@
 import {task} from "./task";
-import {loadProjects, loadProjectContent, populateProjectsDropdown} from "./UI";
+import {loadProjects, loadProjectContent, refreshProjectListener, populateProjectsDropdown} from "./UI";
 import {project} from "./project";
 import { leftNav } from "./leftNav";
 import { getTaskFromInput} from "./addTask";
 
-//let projects = [];
+/*
+Initialize the leftNavObject which will be a dynamic list of projects that store tasks
+Additionally, load up a couple dummy tasks right off the bat
+*/
 const leftNavObj = leftNav();
-const defaultProject = project("default");
+const defaultProject = project("Default Project");
 leftNavObj.addProject(defaultProject);
 const testTask1 = task("brush", "gotta brush my teeth", "1/11/22");
 const testTask2 = task("change", "gotta change my clothes", "1/11/22");
@@ -15,26 +18,22 @@ defaultProject.addTask(testTask2);
 
 loadProjectContent(defaultProject);
 loadProjects(leftNavObj);
-
-//projects.push(defaultProject);
-
-const refreshProjectListener = () => {
-    const projects = document.querySelectorAll(".project");
-    projects.forEach((project, index) => {
-        project.addEventListener("click", () => {
-            loadProjectContent(leftNavObj.getProjects()[index]);
-        });
-    });
-};
+document.querySelector(".Default").classList.add("selected");
 
 
+/*
+When a new project is added, it needs to be appended to the leftHandNav
+Additionally, the node list listeners need to be refreshed
+*/
 const addProject = document.querySelector(".add-project");
 addProject.addEventListener("click", () => {
     const newProjName = prompt("New project name: ");
     const newProject = project(newProjName);
     leftNavObj.addProject(newProject);
     loadProjects(leftNavObj);
-    refreshProjectListener();
+    refreshProjectListener(leftNavObj);
+    document.querySelector(`.${newProjName}`).classList.add("selected");
+    loadProjectContent(newProject);
 });
 
 const modal = document.getElementById("myModal"); // Get the modal
