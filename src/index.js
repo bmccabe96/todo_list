@@ -4,21 +4,81 @@ import {project} from "./project";
 import { leftNav } from "./leftNav";
 import { getTaskFromInput} from "./addTask";
 
-/*
-Initialize the leftNavObject which will be a dynamic list of projects that store tasks
-Additionally, load up a couple dummy tasks right off the bat
-*/
-const leftNavObj = leftNav();
-const defaultProject = project("Default Project");
-leftNavObj.addProject(defaultProject);
-const testTask1 = task("brush", "gotta brush my teeth", "1/11/22");
-const testTask2 = task("change", "gotta change my clothes", "1/11/22");
-defaultProject.addTask(testTask1);
-defaultProject.addTask(testTask2);
 
-loadProjectContent(defaultProject);
-loadProjects(leftNavObj);
-document.querySelector(".Default-Project").classList.add("selected");
+const leftNavObj = leftNav();
+
+/*
+    TO DOOOOO
+
+    IN THE ABOVE, I AM AUTO LOADING SOME DEFAULT STUFF. 
+    NEED TO WORK ON LOCAL STORAGE
+    IF LOCAL STORAGE EXISTS, THEN PULL THAT 
+    ELSE, USE THAT DEFAULT SETUP ABOVE
+/*
+
+/*
+    Test for Local storage and use if available -- If not, then just populate
+    some default stuff
+*/
+
+function storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+//Testing if localstorage is available. If it is, need to check if we actually
+//have projects and tasks
+if (storageAvailable('localStorage')) {
+    // Yippee! We can use localStorage awesomeness
+    if (localStorage.tasks !== undefined && localStorage.projects !== undefined) {
+        console.log("Testing localstorage available");
+        const loadedProjects = JSON.parse(localStorage.getItem("projects"));
+        const loadedTasks = JSON.parse(localStorage.getItem("tasks"));
+        loadedProjects.forEach(proj => {
+            let currentProject = project(proj.projectName);
+            leftNavObj.addProject(currentProject);
+            console.log(currentProject);
+            for (let i = 0; i < loadedTasks.length; i++) {
+                if(loadedTasks[i].project === currentProject.projectName) {
+                    currentProject.addTask(loadedTasks[i]);
+                }
+            }
+        });
+        console.log(leftNavObj.getProjects()[0].getTasks());
+        loadProjects(leftNavObj);
+        populateProjectsDropdown(leftNavObj.getProjects());
+        loadProjectContent(leftNavObj.getProjects()[0]);
+        refreshProjectListener(leftNavObj);
+        document.querySelector(`.Default-Project`).click();
+    }
+    else {
+        populateDummyData();
+    }
+  }
+  else {
+    // Too bad, no localStorage for us
+    populateDummyData();
+  }
+
 
 
 /*
@@ -37,7 +97,23 @@ addProject.addEventListener("click", () => {
 });
 
 
-
+//save functionality
+const save = document.querySelector(".save");
+save.addEventListener("click", () => {
+    let savedProjects = [];
+    let savedTasks = [];
+    for(let i = 0; i < leftNavObj.getProjects().length; i++) {
+        savedProjects.push(leftNavObj.getProjects()[i]);
+        leftNavObj.getProjects()[i].getTasks().forEach(task => {
+            savedTasks.push(task);
+        });
+    }
+    console.log(savedProjects);
+    console.log(savedTasks);
+    window.localStorage.clear();
+    window.localStorage.setItem("tasks", JSON.stringify(savedTasks));
+    window.localStorage.setItem("projects", JSON.stringify(savedProjects));
+});
 
 
 /*
@@ -78,6 +154,19 @@ window.onclick = function(event) {
 }
 
 
+
+function populateDummyData() {
+    const defaultProject = project("Default Project");
+    leftNavObj.addProject(defaultProject);
+    const testTask1 = task("brush", "gotta brush my teeth", "1/11/22", defaultProject.projectName);
+    const testTask2 = task("change", "gotta change my clothes", "1/11/22", defaultProject.projectName);
+    defaultProject.addTask(testTask1);
+    defaultProject.addTask(testTask2);
+
+    loadProjectContent(defaultProject);
+    loadProjects(leftNavObj);
+    document.querySelector(".Default-Project").classList.add("selected");
+}
 
 
 

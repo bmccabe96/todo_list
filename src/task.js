@@ -1,9 +1,11 @@
-const task = (title, description, dueDate, project="default") => {
+const task = (title, description, dueDate, project) => {
+    let isChecked = false;
     return {
         title, 
         description, 
         dueDate,
-        project
+        project,
+        isChecked
     };
 };
 

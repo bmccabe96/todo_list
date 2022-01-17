@@ -53,6 +53,18 @@ const loadProjectContent = (project) => {
         outerTaskContainer.appendChild(innerTaskContainer);
 
         content.appendChild(outerTaskContainer);
+
+
+        if (task.isChecked === true) {
+            checkbox.textContent = ":)";
+            checkbox.classList.add("checked");
+        }
+        else {
+            checkbox.textContent = "";
+            checkbox.classList.remove("checked");
+        }
+
+
     });
     const removeButtons = document.querySelectorAll(".remove-task");
     const checkBoxes = document.querySelectorAll(".checkbox");
@@ -65,14 +77,18 @@ const loadProjectContent = (project) => {
         });
     });
 
-    checkBoxes.forEach((checkBox) => {
+    checkBoxes.forEach((checkBox, index) => {
         checkBox.addEventListener("click", () => {
             if(checkBox.textContent !== ":)") {
                 checkBox.textContent = ":)";
-                checkBox.classList.add("checked")
+                checkBox.classList.add("checked");
+                project.getTasks()[index].isChecked = true;
+                console.log(project.getTasks()[index]);
             }else {
                 checkBox.textContent = "";
-                checkBox.classList.remove("checked")
+                checkBox.classList.remove("checked");
+                project.getTasks()[index].isChecked = false;
+                console.log(project.getTasks()[index]);
             }
         });
     });

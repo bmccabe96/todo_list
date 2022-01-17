@@ -26,8 +26,15 @@ const leftNav = () => {
         projects.push(project);
     };
 
+    const removeProject = (project) => {
+        projects = projects.filter(function(obj) {
+            return obj !== project;
+        });
+    };
+
     return {
-        getProject, getProjects, addProject, getProjectByString
+        getProject, getProjects, addProject, 
+        getProjectByString, removeProject
     };
 };
 
